@@ -1,0 +1,26 @@
+<html>
+<%- include("../partials/head") %>
+
+<body>
+    <%- include("../partials/nav") %>
+    <div class="jumbotron">
+        <h1 class="display-4">Video Game Sales</h1>
+        <p class="lead">In this Node.js app web app you can operate a database that contains data about video game
+            sales.</p>
+    </div>
+    <div><% if(info === "") { %>
+        <% } else if (info === "Document saved successfully.") { %>
+        <div class="alert alert-success"><%= info %> </div>
+        <% } else { %>
+        <div class="alert alert-danger">Error with saving data.</div>
+        <% }; %>
+    </div>
+    <hr>
+    <%- include("../partials/footer") %>
+</body>
+
+<script>
+
+</script>
+
+</html>

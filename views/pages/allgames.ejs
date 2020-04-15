@@ -1,0 +1,31 @@
+<html>
+<%- include("../partials/head") %>
+
+<body>
+    <%- include("../partials/nav") %>
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Platform</th>
+            <th>Year</th>
+            <th>Global Sales</th>
+        </thead>
+        <tbody>
+            <% data.forEach((element) => { %>
+            <tr>
+                <td><%= element.Name %></td>
+                <td><%= element.Platform %></td>
+                <td><%= element.Year %></td>
+                <td><%= element.Global_Sales %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <hr>
+    <%- include("../partials/footer") %>
+</body>
+
+<script>
+</script>
+
+</html>
