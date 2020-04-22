@@ -22,6 +22,7 @@ app.get("/allgames", async function (req, res) {
 app.get("/add", function (req, res) {
     res.render("pages/add");
 });
+//Path for adding data through the visual UI.
 app.post("/add", async function (req, res) {
     var game = {
         Name: req.body.Name,
@@ -46,11 +47,35 @@ app.get("/api/get/:id", async function (req, res) {
     var game = await mongo.getById(req.params.id);
     res.status(200).json(game);
 });
-
-app.post("/api/add", function (req, res) {});
-
-app.put("/api/edit/:id", function (req, res) {});
-
+//A document can be added by giving all fields as URL parameters.
+app.post("/api/add/:newname/:newplatform/:newyear/:newglobalsales", function (
+    req,
+    res
+) {
+    var newEntry = {
+        Name: req.params.newname,
+        Platform: req.params.newplatform,
+        Year: req.params.newyear,
+        Global_Sales: req.params.newglobalsales,
+    };
+    mongo.addGame(newEntry);
+    res.status(200).json(newEntry);
+});
+//A document can be updated by giving the id and new values for all fields as URL parameters.
+app.put(
+    "/api/update/:id/:newName/:newPlatform/:newYear/:newGlobalSales",
+    async function (req, res) {
+        var newData = {
+            Name: req.params.newName,
+            Platform: req.params.newPlatform,
+            Year: req.params.newYear,
+            Global_Sales: req.params.newGlobalSales,
+        };
+        var id = req.params.id;
+        var updatedGame = await mongo.updateGame(id, newData);
+        res.status(200).json(updatedGame);
+    }
+);
 app.delete("/api/delete/:id", async function (req, res) {
     var info = await mongo.deleteGame(req.params.id);
     res.status(200).send(info);

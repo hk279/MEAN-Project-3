@@ -56,7 +56,7 @@ exports.getById = async function getById(id) {
         console.log("Database connection established!");
     });
 
-    var identifiedUser = await Game.find({
+    var game = await Game.find({
         _id: id,
     })
         .catch((err) => {
@@ -66,8 +66,8 @@ exports.getById = async function getById(id) {
             db.close();
             return r;
         });
-    console.log(identifiedUser);
-    return identifiedUser;
+    console.log(game);
+    return game;
 };
 exports.addGame = async function addGame(game) {
     const Game = mongoose.model("Game", videoGameSchema);
@@ -98,7 +98,7 @@ exports.addGame = async function addGame(game) {
     return message;
 };
 
-exports.updateGame = function updateGame(id, newData) {
+exports.updateGame = async function updateGame(id, newData) {
     const Game = mongoose.model("Game", videoGameSchema);
 
     const uri = process.env.URI;
@@ -112,14 +112,15 @@ exports.updateGame = function updateGame(id, newData) {
         console.log("Database connection established!");
     });
 
-    Game.findByIdAndUpdate(id, newData)
+    var updatedGame = await Game.findByIdAndUpdate(id, newData)
         .catch((err) => {
             return err;
         })
-        .then(() => {
+        .then((r) => {
             db.close();
-            return "Document updated successfully";
+            return r;
         });
+    return updatedGame;
 };
 
 exports.deleteGame = async function deleteGame(id) {
