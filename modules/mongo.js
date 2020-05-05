@@ -56,7 +56,7 @@ exports.getById = async function getById(id) {
         console.log("Database connection established!");
     });
 
-    var game = await Game.find({
+    var game = await Game.findOne({
         _id: id,
     })
         .catch((err) => {
@@ -68,6 +68,33 @@ exports.getById = async function getById(id) {
         });
     console.log(game);
     return game;
+};
+exports.getByName = async function getByName(name) {
+    const Game = mongoose.model("Game", videoGameSchema);
+
+    const uri = process.env.URI;
+    mongoose.connect(uri, { dbName: "video_game_sales" });
+
+    var db = mongoose.connection;
+    db.on("error", () => {
+        console.log("Database connection error");
+    });
+    db.once("open", () => {
+        console.log("Database connection established!");
+    });
+
+    var games = await Game.find({
+        Name: new RegExp(name, "i"),
+    })
+        .catch((err) => {
+            console.log(err);
+        })
+        .then((r) => {
+            db.close();
+            return r;
+        });
+    console.log(games);
+    return games;
 };
 exports.addGame = async function addGame(game) {
     const Game = mongoose.model("Game", videoGameSchema);
